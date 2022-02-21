@@ -20,9 +20,14 @@ function start() {
 
   //get the filter buttons
   const filterButtons = document.querySelectorAll(".filter");
+  const sortingButtons = document.querySelectorAll("[data-action='sort']");
 
   //add event-listeners to filter buttons and call for the next function
   filterButtons.forEach((knap) => knap.addEventListener("click", animalFilter));
+
+  sortingButtons.forEach((sortKnap) =>
+    sortKnap.addEventListener("click", animalSort)
+  );
 
   loadJSON();
 }
@@ -63,7 +68,60 @@ function animalFilter() {
   } else if (filter === "dog") {
     filteredAnimals = getFilterData(isDog);
   }
+
   displayList(filteredAnimals);
+}
+
+function sortingName(a, b) {
+  console.log("sort function");
+  if (a.name < b.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+function sortingType(a, b) {
+  console.log("sort function");
+  if (a.type < b.type) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+function sortingDesc(a, b) {
+  console.log("sort function");
+  if (a.desc < b.desc) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+function sortingAge(a, b) {
+  console.log("sort function");
+  if (a.age < b.age) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+function sortList(sortBy) {
+  let newList;
+
+  if (sortBy === "name") {
+    newList = allAnimals.sort(sortingName);
+  } else if (sortBy === "type") {
+    newList = allAnimals.sort(sortingType);
+  } else if (sortBy === "desc") {
+    newList = allAnimals.sort(sortingDesc);
+  } else if (sortBy === "age") {
+    newList = allAnimals.sort(sortingAge);
+  }
+
+  displayList(newList);
+}
+function animalSort() {
+  const sortBy = this.dataset.sort;
+  sortList(sortBy);
 }
 
 function getFilterData(filterFunction) {
